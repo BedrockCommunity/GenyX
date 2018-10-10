@@ -10,14 +10,13 @@ import com.nukkitx.api.message.TipMessage;
 import com.nukkitx.api.plugin.Plugin;
 import com.nukkitx.api.plugin.PluginDescription;
 import org.slf4j.Logger;
-import ro.nycu.generator.NewChunkGeneratorRegistery;
+import ro.nycu.generator.NewChunkGenerator;
 
 import javax.inject.Inject;
 import java.nio.file.Path;
 
 @Plugin(id = "GenyX", authors = {"NycuRO"}, version = "1.0.0")
 public class GenyMain {
-
     public static GenyMain INSTANCE;
 
     public final Logger logger;
@@ -35,8 +34,8 @@ public class GenyMain {
 
     @Listener
     public void onInitialization(ServerInitializationEvent event) {
-        INSTANCE = new GenyMain(logger, description, folder, server);
-        new NewChunkGeneratorRegistery(server);
+        this.INSTANCE = this;
+        server.getGeneratorRegistry().register("NEW", NewChunkGenerator::new);
         logger.info(TextFormat.DARK_GREEN + description.getId() + " initialization!");
     }
 
